@@ -65,7 +65,7 @@ class JStackSampler:
         thread_stats[thread] = {}
         thread_stats[thread]["count"] = 0
       for stack in self.stacks[thread].keys():
-        thread_stats[thread]["count"] += self.stacks[thread][stack]
+        thread_stats[thread]["count"] = thread_stats[thread]["count"] + self.stacks[thread][stack]
         self.stacks_idx.append("%d|%s|%s" % (self.stacks[thread][stack], thread, stack))
 
     for idx in sorted(self.stacks_idx, key=lambda x: int(x.split('|')[0])):
@@ -86,7 +86,7 @@ if __name__ == "__main__":
 jStackProfiler sampled mittels JStack einen Java Process im interval von 2s. Danach werden die aufgetreten Stacktraces gezaehlt und sortiert.
 Es kann ebenfalls ein filter angegeben werden, um nur gewisse Threads zu samplen.
 Falls JSTACK_CMD gesetzt wird, so wird dieses als Kommand angezogen.
-"""
+  """
   cmd_parser = OptionParser(usage=usage)
   cmd_parser.add_option("-p", "--pid", dest="pid", help="PID of the java process to sample")
   cmd_parser.add_option("-c", "--count", dest="loops", help="Number of loops to sample (wait time between is fixed to 2s), total runtime loops x wait time (2s)")
